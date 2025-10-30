@@ -24,31 +24,13 @@ Database Schema
 | `orders` | Represents customer orders and their statuses |
 | `order_items` | Details the products and quantities in each order |
 | `payments` | Stores payment details for each order |
-Each table is linked through **foreign keys**, ensuring referential integrity and a logical relational structure.
 
+Each table is linked through **foreign keys**, ensuring referential integrity and a logical relational structure.
 
 ---
 
 ## Entity Relationship Diagram
-
-CUSTOMERS (customer_id PK)
-│
-└──< ORDERS (order_id PK, customer_id FK)
-     │
-     ├──< ORDER_ITEMS (order_item_id PK, order_id FK, product_id FK)
-     │        │
-     │        └── PRODUCTS (product_id PK, category_id FK)
-     │                    │
-     │                    └── CATEGORIES (category_id PK)
-     │
-     └── PAYMENTS (payment_id PK, order_id FK)
-
-PK = Primary Key  
-FK = Foreign Key
-
-
-PK(Primary Key) FK(Foreign Key)
-
+![ER images] (./docs/ER.png)
 
 The sample script includes ready-to-run queries with MySQL;
 1. List customers from USA
