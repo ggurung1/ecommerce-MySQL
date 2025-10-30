@@ -24,11 +24,10 @@ Database Schema
 | `orders` | Represents customer orders and their statuses |
 | `order_items` | Details the products and quantities in each order |
 | `payments` | Stores payment details for each order |
-
 Each table is linked through **foreign keys**, ensuring referential integrity and a logical relational structure.
+
+
 ---
-<<<<<<< HEAD
-=======
 
 ## Entity Relationship Diagram
 
