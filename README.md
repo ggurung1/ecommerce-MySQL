@@ -30,7 +30,7 @@ Each table is linked through **foreign keys**, ensuring referential integrity an
 ---
 
 ## Entity Relationship Diagram
-![ER images] (./docs/ER.png)
+![e-commerce ER diagram](docs/ER.png)
 
 The sample script includes ready-to-run queries with MySQL;
 1. List customers from USA
