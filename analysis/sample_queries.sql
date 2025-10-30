@@ -40,13 +40,18 @@ JOIN order_items oi ON oi.product_id=pr.product_id GROUP BY ca.category_id
 ORDER BY total_revenue DESC LIMIT 3; 
 
 -- customers who have never order
-SELECT cu.customer_id,CONCAT(cu.first_name, ' ', cu.last_name) AS full_name,cu.email,cu.country FROM customers cu LEFT JOIN orders o ON cu.customer_id = o.customer_id WHERE o.order_id IS NULL ORDER BY cu.country, full_name;
+SELECT cu.customer_id,CONCAT(cu.first_name, ' ', cu.last_name) AS full_name,cu.email,cu.country FROM customers cu 
+LEFT JOIN orders o ON cu.customer_id = o.customer_id WHERE o.order_id IS NULL ORDER BY cu.country, full_name;
 
 -- Rank customers by total sepnding using a window function
-SELECT cu.customer_id,CONCAT(cu.first_name, ' ', cu.last_name) AS full_name,SUM(pa.amount) AS total_spent,RANK() OVER(ORDER BY SUM(pa.amount) DESC) AS spending_rank FROM customers cu JOIN orders o ON cu.customer_id=o.customer_id JOIN payments pa ON pa.order_id=o.order_id GROUP BY cu.customer_id ORDER BY spending_rank LIMIT 10;
+SELECT cu.customer_id,CONCAT(cu.first_name, ' ', cu.last_name) AS full_name,SUM(pa.amount) AS total_spent,
+RANK() OVER(ORDER BY SUM(pa.amount) DESC) AS spending_rank FROM customers cu JOIN orders o ON cu.customer_id=o.customer_id 
+JOIN payments pa ON pa.order_id=o.order_id GROUP BY cu.customer_id ORDER BY spending_rank LIMIT 10;
 
 -- Top 3 customers per country by Total Spending 
 WITH customer_spending AS (
-SELECT cu.country,cu.customer_id,CONCAT(cu.first_name,' ',cu.last_name) AS full_name, SUM(pa.amount) AS total_spent,RANK() OVER(PARTITION BY cu.country ORDER BY SUM(pa.amount) DESC) AS spending_rank FROM customers cu JOIN orders o ON cu.customer_id=o.customer_id JOIN payments pa ON o.order_id=pa.order_id GROUP BY cu.country,cu.customer_id
+SELECT cu.country,cu.customer_id,CONCAT(cu.first_name,' ',cu.last_name) AS full_name, SUM(pa.amount) AS total_spent,
+RANK() OVER(PARTITION BY cu.country ORDER BY SUM(pa.amount) DESC) AS spending_rank FROM customers cu 
+JOIN orders o ON cu.customer_id=o.customer_id JOIN payments pa ON o.order_id=pa.order_id GROUP BY cu.country,cu.customer_id
 )
 SELECT country,customer_id,full_name,total_spent,spending_rank FROM customer_spending WHERE spending_rank<=3 ORDER BY country,spending_rank;
